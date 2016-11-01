@@ -38,37 +38,39 @@ echo '<div id="styled_content_block">'; // Beginning of post display
 		{
 			$Item->status( array( 'format' => 'styled' ) );
 		}
+		if( ! $Item->is_intro() ) // Do NOT apply tags, comments and feedback on intro posts
+		{
 		// Permalink:
-		$Item->permanent_link( array(
-				'text' => '#icon#',
-			) );
-
-		if( $Skin->get_setting( 'display_post_time') )
-		{	// We want to display the post time:
-			$Item->issue_time( array(
-					'before'    => ' ',
-					'after'     => ', ',
+			$Item->permanent_link( array(
+					'text' => '#icon#',
 				) );
-		}
 
-		$Item->author( array(
-			'before'    => ' '.T_('by').' ',
-			'after'     => '',
-			'link_text' => 'preferredname',
-		) );
+			if( $Skin->get_setting( 'display_post_time') )
+			{	// We want to display the post time:
+				$Item->issue_time( array(
+						'before'    => ' ',
+						'after'     => ', ',
+					) );
+			}
 
-		$Item->msgform_link();
-		echo ', ';
-
-		$Item->wordcount();
-		echo ' '.T_('words');
-		// echo ', ';
-		// $Item->views();
-
-		$Item->locale_flag( array(
-				'before'    => ' &nbsp; ',
+			$Item->author( array(
+				'before'    => ' '.T_('by').' ',
 				'after'     => '',
+				'link_text' => 'preferredname',
 			) );
+
+			$Item->msgform_link();
+			echo ', ';
+
+			$Item->wordcount();
+			echo ' '.T_('words');
+			// echo ', ';
+			// $Item->views();
+
+			$Item->locale_flag( array(
+					'before'    => ' &nbsp; ',
+					'after'     => '',
+				) );
 	?>
 
 	<br />
@@ -82,6 +84,7 @@ echo '<div id="styled_content_block">'; // Beginning of post display
 			'include_external'=> true,
 			'link_categories' => true,
 		) );
+		}
 	?>
 	</div>
 
@@ -99,17 +102,21 @@ echo '<div id="styled_content_block">'; // Beginning of post display
 		// -------------------------- END OF POST CONTENT -------------------------
 	?>
 
-	<?php
-		// List all tags attached to this post:
+	<?php		
+	if( ! $Item->is_intro() ) // Do NOT apply tags, comments and feedback on intro posts
+		{ // List all tags attached to this post:
 		$Item->tags( array(
 				'before' =>         '<div class="bSmallPrint">'.T_('Tags').': ',
 				'after' =>          '</div>',
 				'separator' =>      ', ',
 			) );
+		}
 	?>
 
 	<div class="bSmallPrint">
 		<?php
+		if( ! $Item->is_intro() ) // Do NOT apply tags, comments and feedback on intro posts
+		{
 			// Permalink:
 			$Item->permanent_link( array(
 					'class' => 'permalink_right',
@@ -138,6 +145,7 @@ echo '<div id="styled_content_block">'; // Beginning of post display
 							'link_title' => '#',
 							'use_popup' => false,
 						) );
+		}
 
 			$Item->edit_link( array( // Link to backoffice for editing
 					'before'    => ' &bull; ',
